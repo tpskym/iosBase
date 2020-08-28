@@ -206,7 +206,20 @@ class BaseModel: Identifiable
         UserDefaults.standard.setValue(dict, forKey: (anyModel?.getNameSaved() ?? "") + "_" + String(id))
         
     }
-   
+    func saveMaxAfterLoadData(countLoaded  : Int){
+        UserDefaults.standard.set(countLoaded, forKey:( anyModel?.getNameSaved() ?? "") + "_max")
+    }
+    func clear()
+    {
+        var items = loadAll()
+        for item in items
+        {
+            item.remove()
+        }
+        UserDefaults.standard.removeObject(forKey: ( anyModel?.getNameSaved() ?? "") + "_max")
+        
+        
+    }
     
 }
 
