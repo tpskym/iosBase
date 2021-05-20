@@ -41,7 +41,9 @@ class DataBaseList {
     {
         return AnyView(EmptyView())
     }
-    
+    func getIsDescendingSort() -> Bool{
+        return false
+    }
     func getViewRow(item: BaseModel) -> AnyView
     {
         return AnyView(EmptyView())
@@ -89,6 +91,10 @@ struct BaseList: View {
     private var isSelectForm = false
     @State private var list = [BaseModel]()
     @State private var dictionary :Dictionary<String,[BaseModel]>  = Dictionary<String,[BaseModel]>()
+    @State var isContextMenuSelect = false
+    @State var itemContextMenuSelected : BaseModel = BaseModel()
+    
+    @State var isAddMode = false
     
     init(data : DataBaseList){
         self.isPlain = true
@@ -110,10 +116,10 @@ struct BaseList: View {
         
         
     }
-    
-    
     private var add : some View{
-        NavigationLink(destination: self.dataBaseList.getDestination(isNewItem: true, item: nil) ) {
+        Button(action: {
+            self.isAddMode = true
+        }) {
             HStack {
                 Image(systemName: "plus.circle")
                 Text("Добавить")
@@ -121,8 +127,13 @@ struct BaseList: View {
         }
     }
     
-    @State var isContextMenuSelect = false
-    @State var itemContextMenuSelected : BaseModel = BaseModel()
+    private var addLink : some View{
+        NavigationLink(destination: self.dataBaseList.getDestination(isNewItem: true, item: nil), isActive : self.$isAddMode ) {
+            EmptyView()
+        }.frame(maxWidth: 0, maxHeight: 0)
+    }
+    
+  
     
     func getListView()-> AnyView
     {
@@ -162,7 +173,7 @@ struct BaseList: View {
     
     var noItemsView : AnyView {
         return AnyView(VStack {
-            Text( self.dataBaseList.getTextNoItems() )
+            Text( self.dataBaseList.getTextNoItems() ).padding()
             add
         })
     }
@@ -171,7 +182,15 @@ struct BaseList: View {
         let keys = dictionary.keys.map { (String) -> String in
             return String
         }.sorted { (one, two) -> Bool in
-            return one < two
+            if self.dataBaseList.getIsDescendingSort()
+            {
+                return one > two
+            }
+            else
+            {
+                return one < two
+            }
+            
         }
         func getArr(_ key : String) -> [BaseModel]
         {
@@ -190,6 +209,7 @@ struct BaseList: View {
                     , content: {
                         ForEach( getArr(key), id: \.id) { baseModel in
                             VStack {
+                                
                                 if self.isSelectForm  {
                                     rowBase(item: baseModel,
                                             baseModelIdSelected:  self.dataBaseList.$baseModelIdSelected,
@@ -211,6 +231,8 @@ struct BaseList: View {
             }
         return AnyView(view)
     }
+    
+    
     
     var listPlain : AnyView {
         return AnyView(
@@ -261,14 +283,12 @@ struct BaseList: View {
     
     var body: some View {
         
-        return
-            
-            getListView()
-            
-        .navigationBarItems(trailing: add)
-        
-        .navigationBarTitle( Text(getTitle()), displayMode: .large )
-        
+        return HStack{
+                    getListView()
+                    addLink
+                }
+        .navigationBarItems( trailing: add )
+        .navigationBarTitle( Text( getTitle() ), displayMode: .large )
         .onAppear(){
             if self.isPlain {
                 self.list = self.dataBaseList.filList()
@@ -277,8 +297,6 @@ struct BaseList: View {
                 self.dictionary = (self.dataBaseList as! GroupDataBaselist).fillDictionary()
             }
         }
-        
-        
     }
 }
 
@@ -323,3 +341,11 @@ struct rowBase : View {
 //        BaseList( baseModelIdSelected: $id )
 //    }
 //}
+struct testView  : View
+{
+    var body: some View
+    {
+        Text("gjnghg")
+    }
+    
+}

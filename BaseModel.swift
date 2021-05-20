@@ -166,7 +166,7 @@ class BaseModel: Identifiable
                 if item != nil {
                     
                     if let anyModel = anyModel{
-                        var itemToList = anyModel.getInstance()
+                        let itemToList = anyModel.getInstance()
                         itemToList.loadFromDict(dict: item as! Dictionary<String,Any>)
                         list.append(itemToList)
                     }
@@ -211,7 +211,7 @@ class BaseModel: Identifiable
     }
     func clear()
     {
-        var items = loadAll()
+        let items = loadAll()
         for item in items
         {
             item.remove()

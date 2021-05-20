@@ -12,7 +12,7 @@ class CodableWork
 //    open func encode<T>(_ value: T) throws -> Data where T : Encodable
     static func getStringFromCodable<T>(_ encodable : T)-> String? where T : Encodable
     {
-        do {
+        //do {
             let data =  try? JSONEncoder().encode(encodable)
             if let data = data {
                 return String(data: data, encoding: .utf8)!
@@ -22,11 +22,11 @@ class CodableWork
                 return nil
             }
             
-        } catch  {
-            print(error)
-            return nil
-            
-        }
+//        } catch  {
+//            print(error)
+//            return nil
+//            
+//        }
         
     }
     

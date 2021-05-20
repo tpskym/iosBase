@@ -12,17 +12,13 @@ import SwiftUI
 class OpenMessangers {
     private func getPhoneForWhatsup(number : String)->String
     {
-        var item = number
+        let item = number
         var ret = ""
-        var isFirstLetter = true
+        
         for letter in item {
             
             if letter.isNumber
             {
-                //                if isFirstLetter{
-                //                    isFirstLetter = false
-                //                    continue
-                //                }
                 ret.append(letter)
             }
         }
@@ -31,9 +27,9 @@ class OpenMessangers {
     func openPersonInCall(number : String)
     {
         
-        var address = "tel:\(self.getPhoneForWhatsup( number : number  ))"
+        let address = "tel:\(self.getPhoneForWhatsup( number : number  ))"
         //address = "https://www.hackingwithswift.com"
-        var url  = URL(string: address)
+        let url  = URL(string: address)
         
         //Text which will be shared on WhatsApp is: "Hello Friends, Sharing some data here... !"
         if let url = url {
@@ -52,9 +48,9 @@ class OpenMessangers {
     func openPersonInTelegram(number : String)
     {
         
-        var address = "tg://msg?to=\(self.getPhoneForWhatsup( number : number  ))"
+        let address = "tg://msg?to=\(self.getPhoneForWhatsup( number : number  ))"
         //address = "https://www.hackingwithswift.com"
-        var url  = URL(string: address)
+        let url  = URL(string: address)
         
         //Text which will be shared on WhatsApp is: "Hello Friends, Sharing some data here... !"
         if let url = url {
@@ -72,9 +68,9 @@ class OpenMessangers {
     func openPersonInSMS(number: String)
     {
         
-        var address = "SMS:\(self.getPhoneForWhatsup( number : number  ))"
+        let address = "SMS:\(self.getPhoneForWhatsup( number : number  ))"
         //address = "https://www.hackingwithswift.com"
-        var url  = URL(string: address)
+        let url  = URL(string: address)
         
         //Text which will be shared on WhatsApp is: "Hello Friends, Sharing some data here... !"
         if let url = url {
@@ -92,9 +88,9 @@ class OpenMessangers {
     func openPersonInViber(number : String)
     {
         
-        var address = "viber://add?number=\(self.getPhoneForWhatsup( number : number  ))"
+        let address = "viber://add?number=\(self.getPhoneForWhatsup( number : number  ))"
         //address = "https://www.hackingwithswift.com"
-        var url  = URL(string: address)
+        let url  = URL(string: address)
         
         //Text which will be shared on WhatsApp is: "Hello Friends, Sharing some data here... !"
         if let url = url {
@@ -111,9 +107,9 @@ class OpenMessangers {
     }
     func OpenPersonInWhatsup(number : String)
     {
-        var address = "whatsapp://send/?phone=\(self.getPhoneForWhatsup( number : number  ))"
+        let address = "whatsapp://send/?phone=\(self.getPhoneForWhatsup( number : number  ))"
         //address = "https://www.hackingwithswift.com"
-        var url  = URL(string: address)
+        let url  = URL(string: address)
         
         //Text which will be shared on WhatsApp is: "Hello Friends, Sharing some data here... !"
         if let url = url {

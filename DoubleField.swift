@@ -18,7 +18,6 @@ struct DoubleField: View {
         
         let temp = Binding<String>(
             get: {
-                print ("get")
                 if self.value == 0.0{
                     return ""
                 }

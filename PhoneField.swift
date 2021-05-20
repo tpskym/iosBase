@@ -17,7 +17,7 @@ struct PhoneField : View
     var body: some View
     {
         
-        var binding = Binding(get: {
+        let binding = Binding(get: {
             
             return Formatter.PhoneFormat(with: "+X (XXX) XXX-XX-XX", phone: self.phone)
             
