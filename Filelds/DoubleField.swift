@@ -55,6 +55,12 @@ extension Formatter{
         
         return formatter
     }
+    static func string(countDigits: Int, from: Double, defaultString: String)-> String
+    {
+        return Formatter
+            .DoubleFormatter(countDigits: countDigits)
+            .string(from: from as NSNumber) ?? defaultString
+    }
     static func DoubleValue(from : String) -> Double{
         
         var ret = ""

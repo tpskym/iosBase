@@ -14,11 +14,11 @@ struct ReferenceField: View {
     var destination : AnyView
     
     
-    @Binding var selected : String
+    var selected : String
     
     func getTextSelected() -> String{
         if selected == "" {
-            return "Выберите значение"
+            return "Select value"
         }
         else{
             return selected
@@ -28,7 +28,7 @@ struct ReferenceField: View {
   
     var body: some View {
         
-        HStack{
+         HStack{
             Text(name).fontWeight(.ultraLight)
             NavigationLink(destination: self.destination){
                 if selected == ""{
