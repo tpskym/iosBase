@@ -80,7 +80,7 @@ struct UniversalLightListTemplate: View {
 
     struct detailViewItem: View
     {
-       
+
         @EnvironmentObject var model: viewModel
         var body: some View
         {
@@ -88,10 +88,14 @@ struct UniversalLightListTemplate: View {
                 Text("")
             }
                 .navigationTitle("Edit Income")
-              
+
         }
     }
-
+    
+    func getSearchOnItem(item: NameOfClass, text: String) -> Bool
+    {
+        //return item.name?.contains(text) ?? true
+    }
 
     // // // // / / / // / / / / / // / /
 
@@ -100,6 +104,23 @@ struct UniversalLightListTemplate: View {
     @State var isAddToggle = false
     @State var newItem: NameOfClass? = nil
 
+    @State var searchedText = ""
+    
+    func getSearchStatus(item: NameOfClass) -> Bool {
+        if searchedText == "" {
+            return true
+        }
+        else {
+            return getSearchOnItem(item: item, text: searchedText)
+        }
+    }
+    
+    
+    fileprivate func getFiltered() -> [FetchedResults<NameOfClass>.Element] {
+        return items.filter { currentItem in
+            getSearchStatus(item: currentItem)
+        }
+    }
 
     var body: some View {
         //NavigationView {
@@ -109,7 +130,14 @@ struct UniversalLightListTemplate: View {
             }
             else {
                 List {
-                    ForEach(items) { item in
+                    if getFiltered().count == 0 {
+                        noItems()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding(.top, 50)
+                            .padding(.bottom, 50)
+                        
+                    }
+                    ForEach(getFiltered()) { item in
 
                         if isSelectMode {
                             itemInSelectMode(item: item, selected: $selectedItem)
@@ -127,6 +155,7 @@ struct UniversalLightListTemplate: View {
                     }
                         .onDelete(perform: deleteItems)
                 }
+                .searchable(text: $searchedText)
                 if isAddToggle {
                     NavigationLink("",
                         destination: detailViewItem()
@@ -147,11 +176,11 @@ struct UniversalLightListTemplate: View {
             }
         }
             .onAppear(perform: {
-                if !isSelectMode{
-                    viewContext.refreshAllObjects()
-                }
-                
-            })
+            if !isSelectMode {
+                viewContext.refreshAllObjects()
+            }
+
+        })
             .navigationTitle(getTitle())
         //}
 
