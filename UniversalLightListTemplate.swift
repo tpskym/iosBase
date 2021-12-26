@@ -87,7 +87,7 @@ struct UniversalLightListTemplate: View {
             Form {
                 Text("")
             }
-                .navigationTitle("Edit Income")
+                .navigationTitle("Edit item")
 
         }
     }
